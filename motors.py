@@ -58,3 +58,9 @@ def Left(value):
     
 def Right(value):
     motorRServo.ChangeFrequency(value)
+
+def setReverse(isRev):
+    if isReversed == isRev:
+        return
+    GPIO.output(reverseL, isRev)
+    GPIO.output(reverseR, isRev)
