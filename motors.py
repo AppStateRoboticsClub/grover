@@ -26,7 +26,7 @@ motorRServo.ChangeDutyCycle(0) # RPI can encounter a bug that might require this
 duty1 = 5
 duty2 = 5
 
-isReversed: bool = False
+isReversed = False
 
 def turn(value): 
     motorLServo.ChangeDutyCycle(speed * (1 + value)) # 50 Right, 0 Neutral, -50 Left
