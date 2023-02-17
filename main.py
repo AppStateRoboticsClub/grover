@@ -16,9 +16,9 @@ while True:
 	# get the speed
 	speed = 20 * controller.axis["RTRIGGER"]
 	# check for reverse
-	if controller.button["RBUMP"] == 0 and motors.isReversed:
+	if controller.button["RBUMP"] == 0:
 		motors.isReversed = False
-	elif controller.button["RBUMP"] == 1 and not motors.isReversed:
+	elif controller.button["RBUMP"] == 1:
 		motors.isReversed = True
 
 	turn = controller.axis["RSTICKX"]
