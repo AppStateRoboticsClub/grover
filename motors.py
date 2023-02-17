@@ -27,7 +27,6 @@ duty1 = 5
 duty2 = 5
 
 isReversed = False
-print("isreversed: " + str(isReversed))
 
 def turn(value): 
     motorLServo.ChangeDutyCycle(speed * (1 + value)) # 50 Right, 0 Neutral, -50 Left
@@ -36,6 +35,7 @@ def turn(value):
     duty2 = 50 - value
     
 def acc(value):
+    global isReversed
     # check for is reversed
     if value < 0 and not isReversed:
         value = abs(value)
