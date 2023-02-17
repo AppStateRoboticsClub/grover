@@ -3,7 +3,6 @@ import RPi.GPIO as GPIO
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)  # use broadcom pin numbering (not board pin numbering)
 
-
 # setup
 # motor control pins
 motorL = 13 # GPIO Pin for motorL # previously motor1
@@ -16,6 +15,8 @@ reverseL = 5 # pin for reverse left
 reverseR = 6 # pin for reverse right
 GPIO.setup(reverseL, GPIO.OUT)
 GPIO.setup(reverseR, GPIO.OUT)
+GPIO.output(reverseL, False) # set so no pin output, aka go forwards
+GPIO.output(reverseR, False) # set so no pin output, aka go forwards
 
 motorLServo = GPIO.PWM(motorL, 1000) # set Motors to PWM. Change this depeneding on how your motor controller works
 motorLServo.start(8)
@@ -35,19 +36,7 @@ def turn(value):
     duty2 = 50 - value
     
 def acc(value):
-    global isReversed
     # check for is reversed
-    if value < 0:
-        value = abs(value)
-        if not isReversed:
-            GPIO.output(reverseL, True)
-            GPIO.output(reverseR, True)
-        isReversed = True
-    elif value > 0 and isReversed:
-        GPIO.output(reverseL, False)
-        GPIO.output(reverseR, False)
-        isReversed = False
-
      
     motorLServo.ChangeDutyCycle(value)
     motorRServo.ChangeDutyCycle(value)
