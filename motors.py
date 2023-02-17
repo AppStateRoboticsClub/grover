@@ -37,10 +37,11 @@ def turn(value):
 def acc(value):
     global isReversed
     # check for is reversed
-    if value < 0 and not isReversed:
+    if value < 0:
         value = abs(value)
-        GPIO.output(reverseL, True)
-        GPIO.output(reverseR, True)
+        if not isReversed:
+            GPIO.output(reverseL, True)
+            GPIO.output(reverseR, True)
         isReversed = True
     elif value > 0 and isReversed:
         GPIO.output(reverseL, False)
