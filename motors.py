@@ -6,15 +6,15 @@ GPIO.setmode(GPIO.BCM)  # use broadcom pin numbering (not board pin numbering)
 # setup
 # motor control pins
 motorL = 13 # GPIO Pin for motorL # previously motor1
-motorR = 12 # GPIO Pin for motorR # previously motorR
-GPIO.setup(motorL, GPIO.OUT)
-GPIO.setup(motorR, GPIO.OUT)
+motorR = 12 # GPIO Pin for motorR # previously motor2
+GPIO.setup(motorL, GPIO.OUT) # set pin motorL to output
+GPIO.setup(motorR, GPIO.OUT) # set pin motorR to output
 
 # reverse control pins
 reverseL = 5 # pin for reverse left
 reverseR = 6 # pin for reverse right
-GPIO.setup(reverseL, GPIO.OUT)
-GPIO.setup(reverseR, GPIO.OUT)
+GPIO.setup(reverseL, GPIO.OUT) # set pin reverseL to output
+GPIO.setup(reverseR, GPIO.OUT) # set pin reverseR to output
 GPIO.output(reverseL, False) # set so no pin output, aka go forwards
 GPIO.output(reverseR, False) # set so no pin output, aka go forwards
 
@@ -24,24 +24,31 @@ motorRServo = GPIO.PWM(motorR, 1000) # set Motors to PWM. Change this depeneding
 motorRServo.start(8)
 motorLServo.ChangeDutyCycle(0) # 
 motorRServo.ChangeDutyCycle(0) # RPI can encounter a bug that might require this to be applied twice
-duty1 = 5
-duty2 = 5
+dutyL = 5
+dutyR = 5
 
 isReversed = False
 
 def turn(value): 
     motorLServo.ChangeDutyCycle(speed * (1 + value)) # 50 Right, 0 Neutral, -50 Left
     motorRServo.ChangeDutyCycle(speed * (1 - value))
-    duty1 = 50 + value
-    duty2 = 50 - value
+    dutyL = 50 + value
+    dutyR = 50 - value
     
 def acc(value):
     # check for is reversed
-     
+    
+    # reduce reverse speed
+    if isReversed:
+        value = value / 5
+
+    # update pwm duty cycle to new value
     motorLServo.ChangeDutyCycle(value)
     motorRServo.ChangeDutyCycle(value)
-    duty1 = value
-    duty2 = value
+    dutyL = value
+    dutyR = value
+
+    # update the speed
     global speed
     speed = value
 
@@ -50,16 +57,22 @@ def stop():
     motorRServo.stop()
     
 def start():
-    motorLServo.start(duty1)
-    motorRServo.start(duty2)
+    motorLServo.start(dutyL)
+    motorRServo.start(dutyR)
     
-def Left(value):
+def Left(value: int):
     motorLServo.ChangeFrequency(value)
     
-def Right(value):
+def Right(value: int):
     motorRServo.ChangeFrequency(value)
 
-def setReverse(isRev):
+'''
+ - setReversed
+ - Takes a boolean value as a parameter as to whether the rover should be reversed, then updates
+ the reverse pins to be on if reverse is true, and off if false
+ - @param isRev: bool - The current state of the reverse button
+'''
+def setReverse(isRev: bool):
     global isReversed
     if isReversed == isRev:
         return
