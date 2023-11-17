@@ -18,7 +18,7 @@ SQUARE -> left button; CIRCLE -> right button; TRIANGLE -> top button; CROSS -> 
 LBUMP -> left bumper; RBUMP -> right bumper; LSTICK -> left stick button;
 RSTICK -> right stick button;
 ''' # stores the values for the buttons
-button: dict[str, float]= {"START": 0, "SELECT": 0, "LEFT": 0, "RIGTH": 0, "UP": 0, "DOWN": 0, 
+button: dict[str, float]= {"START": 0, "SELECT": 0, "LEFT": 0, "RIGHT": 0, "UP": 0, "DOWN": 0, 
     "SQUARE": 0, "CIRCLE": 0, "TRIANGLE": 0, "CROSS": 0, "LBUMP": 0, "RBUMP": 0, "LSTICK": 0, 
     "RSTICK": 0, "LTRIGGER": 0, "RTRIGGER": 0, "LSTICKX": 0, "LSTICKY": 0, "RSTICKX": 0, "RSTICKY": 0}
 
